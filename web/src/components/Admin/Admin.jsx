@@ -7,6 +7,9 @@ import { Container, InputLabel, MenuItem, Select } from "@mui/material";
 import { tournamentTeam, arrayOfTeam } from "../../core";
 
 function Admin() {
+  const dev = "http://localhost:4000";
+  const baseURL =
+    window.location.hostname.split(":")[0] === "localhost" ? dev : "";
   const [scoreObject, setScoreObject] = useState({
     team1: "",
     batsman1: "",
@@ -31,7 +34,7 @@ function Admin() {
   });
 
   useEffect(() => {
-    axios.get("http://localhost:4000/api/v1/getscore").then((res) => {
+    axios.get(`${baseURL}/api/v1/getscore`).then((res) => {
       setScoreObject(res.data);
     });
     // eslint-disable-next-line
@@ -40,7 +43,7 @@ function Admin() {
   const submit = (w) => {
     w.preventDefault();
     axios
-      .post("http://localhost:4000/api/v1/scorepost", {
+      .post(`${baseURL}/api/v1/scorepost`, {
         team1: scoreObject.team1,
         batsman1: scoreObject.batsman1,
         batsman1Runs: scoreObject.batsman1Runs,
@@ -70,7 +73,7 @@ function Admin() {
   // delete record
   const deleteAllRecord = () => {
     axios
-      .post("http://localhost:4000/api/v1/deleteRecord", {})
+      .post(`${baseURL}/api/v1/deleteRecord`, {})
       .then((result) => {
         if (result) {
           window.location.reload();

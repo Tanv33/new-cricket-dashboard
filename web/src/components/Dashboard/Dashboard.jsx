@@ -6,10 +6,13 @@ import { Container, Navbar, Button } from "react-bootstrap";
 
 import io from "socket.io-client";
 function Dashboard() {
+  const dev = "http://localhost:4000";
+  const baseURL =
+    window.location.hostname.split(":")[0] === "localhost" ? dev : "";
   const [showCase, setShowCase] = useState({});
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/v1/getscore")
+      .get(`${baseURL}/api/v1/getscore`)
       .then((result) => {
         // console.log(result.data);
         setShowCase(result.data);
@@ -22,7 +25,7 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const socket = io("http://localhost:4000");
+    const socket = io(`${baseURL}`);
 
     socket.on("connect", function () {
       console.log("connected to server");
